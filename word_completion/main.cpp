@@ -1,9 +1,6 @@
+#include "BaseSuggestion.h"
 #include <cstdio>
-#include <vector>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include<bits/stdc++.h>
+#include "LinearSearchSuggestion.cpp"
 
 void printUsage()
 {
@@ -54,25 +51,6 @@ void parseArgs(int argc, char** argv, std::string& pathToDict, std::string& inpu
     }
 }
 
-std::vector<std::string> getSuggestions(std::vector<std::string> dictionary, std::string input, ulong count)
-{
-    std::vector<std::string> result;
-    for (std::string word : dictionary)
-    {
-        std::transform(word.begin(), word.end(), word.begin(), ::tolower);
-        if (word.rfind(input, 0) == 0)
-        {
-            result.push_back(word);
-            if (result.size() >= count)
-            {
-                return result;
-            }
-        }
-    }
-
-    return result;
-}
-
 int main(int argc, char** argv)
 {
     std::string pathToDict;
@@ -89,26 +67,10 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    std::vector<std::string> dict;
-    std::ifstream in(pathToDict);
-    
-    if (!in)
-    {
-        std::cout << "Cannot open the File : " << pathToDict << std::endl;
-        return 1;
-    }
+    LinearSearchSuggestion linear = LinearSearchSuggestion(pathToDict, count);
+    BaseSuggestion* engine = &linear;
 
-    std::string str;
-    while (std::getline(in, str))
-    {
-        if (str.size() > 0)
-        {
-            dict.push_back(str);
-        }
-    }
-    in.close();
-
-    std::vector<std::string> suggestions = getSuggestions(dict, input, 10);
+    std::vector<std::string> suggestions = engine->getSuggestions(input);
     for (std::string word : suggestions)
     {
         std::cout << word << std::endl;
