@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 {
     std::string pathToDict;
     std::string input;
-    ulong count;
+    ulong count = 10;
     bool useTrie = false;
 
     parseArgs(argc, argv, pathToDict, input, count, useTrie);
