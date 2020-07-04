@@ -76,14 +76,18 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="BaseSuggestion.cpp" />
     <ClCompile Include="LinearSearchSuggestion.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TrieSuggestion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dictionary.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseSuggestion.h" />
+    <ClInclude Include="LinearSearchSuggestion.h" />
+    <ClInclude Include="TrieSuggestion.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

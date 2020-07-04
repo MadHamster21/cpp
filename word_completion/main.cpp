@@ -1,6 +1,7 @@
 #include "BaseSuggestion.h"
 #include <cstdio>
-#include "LinearSearchSuggestion.cpp"
+#include "LinearSearchSuggestion.h"
+#include "TrieSuggestion.h"
 
 void printUsage()
 {
@@ -67,8 +68,21 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    LinearSearchSuggestion linear = LinearSearchSuggestion(pathToDict, count);
-    BaseSuggestion* engine = &linear;
+    LinearSearchSuggestion linearSearchEngine;
+    TrieSuggestion trieEngine;
+
+    BaseSuggestion* engine;
+
+    if (useTrie)
+    {
+        trieEngine = TrieSuggestion(pathToDict, count);
+        engine = &trieEngine;
+    }
+    else
+    {
+        linearSearchEngine = LinearSearchSuggestion(pathToDict, count);
+        engine = &linearSearchEngine;
+    }
 
     std::vector<std::string> suggestions = engine->getSuggestions(input);
     for (std::string word : suggestions)
