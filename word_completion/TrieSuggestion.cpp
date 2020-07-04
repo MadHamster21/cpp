@@ -25,16 +25,11 @@ TrieSuggestion::TrieSuggestion(std::string path, ulong c)
     {
         trie* curNode = &rootNode;
         for (char const& ch : str) {
-            trie tmpNode;
             auto node = curNode->nodes.find(ch);
-            if (node != curNode->nodes.end()) {
-                tmpNode = node->second;
+            if (node == curNode->nodes.end()) {
+                curNode->nodes.insert({ ch, trie()});
             }
-            else {
-                tmpNode = trie();
-                curNode->nodes.insert({ch, tmpNode});
-            }
-            curNode = &tmpNode;
+            curNode = &curNode->nodes.find(ch)->second;
         }
         curNode->isWord = true;
     }
@@ -50,7 +45,6 @@ std::vector<std::string> TrieSuggestion::getSuggestions(std::string input)
     std::vector<std::string> result;
     trie* inputNode = &root;
     for (char const& ch : input) {
-        trie tmpNode;
         auto node = inputNode->nodes.find(ch);
         if (node != inputNode->nodes.end()) {
             inputNode = &node->second;
