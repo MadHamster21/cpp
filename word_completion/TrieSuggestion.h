@@ -20,4 +20,5 @@ public:
 
 private:
     trie root;
+    void findWords(trie* node, std::string curLine, std::vector<std::string>* result);
 };

@@ -54,5 +54,23 @@ std::vector<std::string> TrieSuggestion::getSuggestions(std::string input)
         }
     }
 
+    findWords(inputNode, input, &result);
+
     return result;
+}
+
+void TrieSuggestion::findWords(trie* node, std::string curLine, std::vector<std::string>* result)
+{
+    if (node->isWord) {
+        result->push_back(curLine);
+    }
+
+    for (auto curNode : node->nodes)
+    {
+        if (result->size() >= count)
+        {
+            return;
+        }
+        findWords(&curNode.second, curLine + curNode.first, result);
+    }
 }
