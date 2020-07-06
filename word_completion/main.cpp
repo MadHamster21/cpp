@@ -1,6 +1,7 @@
 #include "BaseSuggestion.h"
 #include <cstdio>
 #include "LinearSearchSuggestion.h"
+#include "BinarySearchSuggestion.h"
 #include "TrieSuggestion.h"
 
 void printUsage()
@@ -9,10 +10,12 @@ void printUsage()
     std::cout << "\t-d,--dict\t\tRequired. Path to a file with dictionary with one word per line." << std::endl;
     std::cout << "\t-i,--input\t\tRequired. Beginning of the words to search for." << std::endl;
     std::cout << "\t-c,--count\t\tDefines how many words to seach for at max. Default value is 10." << std::endl;
-    std::cout << "\t-t,--use_trie\t\tIf used the application will use Trie instead of linear search." << std::endl;
+    std::cout << "\t-l,--use_linear\t\tIf used the application will use linear search. Default value if no method chosen." << std::endl;
+    std::cout << "\t-b,--use_binary\t\tIf used the application will use binary search. Takes precedence over linear." << std::endl;
+    std::cout << "\t-t,--use_trie\t\tIf used the application will use Trie instead of linear search. Takes precedence over others." << std::endl;
 }
 
-void parseArgs(int argc, char** argv, std::string& pathToDict, std::string& input, ulong& count, bool& useTrie)
+void parseArgs(int argc, char** argv, std::string& pathToDict, std::string& input, ulong& count, bool& useLinear, bool& useBinary, bool& useTrie)
 {
     for (int i = 1; i < argc; i++)
     {
@@ -45,8 +48,22 @@ void parseArgs(int argc, char** argv, std::string& pathToDict, std::string& inpu
                 std::cerr << "--count option requires integer value." << std::endl;
             }
         }
+        if ((arg == "-l") || (arg == "--use_linear"))
+        {
+            useLinear = true;
+            useBinary = false;
+            useTrie = false;
+        }
+        if ((arg == "-b") || (arg == "--use_binary"))
+        {
+            useLinear = false;
+            useBinary = true;
+            useTrie = false;
+        }
         if ((arg == "-t") || (arg == "--use_trie"))
         {
+            useLinear = false;
+            useBinary = false;
             useTrie = true;
         }
     }
@@ -57,9 +74,11 @@ int main(int argc, char** argv)
     std::string pathToDict;
     std::string input;
     ulong count = 10;
+    bool useLinear = true;
+    bool useBinary = false;
     bool useTrie = false;
 
-    parseArgs(argc, argv, pathToDict, input, count, useTrie);
+    parseArgs(argc, argv, pathToDict, input, count, useLinear, useBinary, useTrie);
 
     if (pathToDict.size() == 0 || input.size() == 0)
     {
@@ -69,19 +88,25 @@ int main(int argc, char** argv)
     }
 
     LinearSearchSuggestion linearSearchEngine;
+    BinarySearchSuggestion binarySearchEngine;
     TrieSuggestion trieEngine;
 
     BaseSuggestion* engine;
 
-    if (useTrie)
-    {
-        trieEngine = TrieSuggestion(pathToDict, count);
-        engine = &trieEngine;
-    }
-    else
+    if (useLinear)
     {
         linearSearchEngine = LinearSearchSuggestion(pathToDict, count);
         engine = &linearSearchEngine;
+    }
+    else if (useBinary)
+    {
+        binarySearchEngine = BinarySearchSuggestion(pathToDict, count);
+        engine = &binarySearchEngine;
+    }
+    else
+    {
+        trieEngine = TrieSuggestion(pathToDict, count);
+        engine = &trieEngine;
     }
 
     std::vector<std::string> suggestions = engine->getSuggestions(input);
