@@ -1,5 +1,7 @@
 #include "BaseSuggestion.h"
 #include <cstdio>
+#include <chrono>
+#include <unistd.h>
 #include "LinearSearchSuggestion.h"
 #include "BinarySearchSuggestion.h"
 #include "TrieSuggestion.h"
@@ -109,11 +111,18 @@ int main(int argc, char** argv)
         engine = &trieEngine;
     }
 
+    auto start = std::chrono::steady_clock::now();
     std::vector<std::string> suggestions = engine->getSuggestions(input);
+    auto end = std::chrono::steady_clock::now();
+
     for (std::string word : suggestions)
     {
         std::cout << word << std::endl;
     }
+
+    std::cout << "Elapsed time in nanoseconds : "
+        << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()
+        << " ns" << std::endl;
     
     return 0;
 }
