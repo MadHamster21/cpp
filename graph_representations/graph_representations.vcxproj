@@ -76,11 +76,13 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="AdjacencyListGraph.cpp" />
     <ClCompile Include="DirectTranslationGraph.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdjacencyListGraph.h" />
     <ClInclude Include="DirectTranslationGraph.h" />
     <ClInclude Include="Graph.h" />
   </ItemGroup>

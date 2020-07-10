@@ -2,16 +2,33 @@
 #include <vector>
 #include <iostream>
 #include "DirectTranslationGraph.h"
+#include "AdjacencyListGraph.h"
 
 int main()
 {
+    std::cout << "DirectTranslationGraph" << std::endl;
     std::vector<int> v = { 0, 1, 2, 3 };
     std::vector<std::pair<int, int>> e = { {1, 3}, {3, 0}, {0, 2}, {2, 1}, {2, 3} };
-    DirectTranslationGraph g(v, e);
+    DirectTranslationGraph dtg(v, e);
 
-    g.printGraphBfs(0);
-    g.printGraphDfs(0);
+    dtg.printGraphBfs(0);
+    dtg.printGraphDfs(0);
     
-    std::cout << "Is Euler walkable: " << g.isEulerWalkable() << std::endl;
+    std::cout << "Is Euler walkable: " << dtg.isEulerWalkable() << std::endl;
+
+
+    std::cout << "AdjacencyListGraph" << std::endl;
+    AdjacencyListGraph alg({
+        AdjacencyListGraph::Vertex(0, {1, 2}),
+        AdjacencyListGraph::Vertex(1, {0, 2, 3, 4}),
+        AdjacencyListGraph::Vertex(2, {0, 1, 3}),
+        AdjacencyListGraph::Vertex(3, {1, 2, 4}),
+        AdjacencyListGraph::Vertex(4, {1, 3}) });
+
+    alg.printGraphBfs(0);
+    alg.printGraphDfs(0);
+
+    std::cout << "Is Euler walkable: " << alg.isEulerWalkable() << std::endl;
+
     return 0;
 }
