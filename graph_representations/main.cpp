@@ -3,6 +3,7 @@
 #include <iostream>
 #include "DirectTranslationGraph.h"
 #include "AdjacencyListGraph.h"
+#include "AdjacencyMatrixGraph.h"
 
 int main()
 {
@@ -29,6 +30,19 @@ int main()
     alg.printGraphDfs(0);
 
     std::cout << "Is Euler walkable: " << alg.isEulerWalkable() << std::endl;
+
+
+    std::cout << "AdjacencyMatrixGraph" << std::endl;
+    AdjacencyMatrixGraph amg({{0, 1, 1, 0, 0},
+                              {1, 0, 1, 1, 1},
+                              {1, 1, 0, 1, 0},
+                              {0, 1, 1, 0, 1},
+                              {0, 1, 0, 1, 0}});
+
+    amg.printGraphBfs(0);
+    amg.printGraphDfs(0);
+
+    std::cout << "Is Euler walkable: " << amg.isEulerWalkable() << std::endl;
 
     return 0;
 }
