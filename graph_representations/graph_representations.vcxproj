@@ -80,6 +80,7 @@
     <ClCompile Include="AdjacencyMatrixGraph.cpp" />
     <ClCompile Include="DirectTranslationGraph.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="JustGraph.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,7 @@
     <ClInclude Include="AdjacencyMatrixGraph.h" />
     <ClInclude Include="DirectTranslationGraph.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="JustGraph.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
